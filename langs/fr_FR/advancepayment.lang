@@ -16,8 +16,9 @@
 AdvancepaymentDescription=Avance de paiement
 AdvancepaymentDescriptionLong=Ce module vous permet d'accepter des paiements anticipés de vos clients et de lier un paiement à une commande ou à une proposition.
 
-PaymentLink=Lien de paiement
-PaymentLinkTo=Lié au paiement
+AdvanceLink=Lien avance de paiement
+AdvanceLinkTo=Lié a avance de paiement
 
-InvoiceLinkPayment=Lier un paiement déjà effectué
-UnLinkPayment=Dissocier le paiement
+InvoiceLinkAdvance=Lier une avance déjà effectuée
+UnLinkAdvance=Dissocier avance de paiement
+ReceiveAdvance=Recevoir une avance de paiement

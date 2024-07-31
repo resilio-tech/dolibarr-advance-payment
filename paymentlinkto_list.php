@@ -89,7 +89,7 @@ print '<table class="centpercent notopnoleftnoright table-fiche-title">';
 print '<tr class="titre">';
 print '<td class="nobordernopadding valignmiddle col-title">';
 print '<div class="titre inline-block">';
-print $langs->trans("PaymentLinkTo");
+print $langs->trans("AdvanceLinkTo");
 print '</div>';
 print '</td>';
 print '</tr>';
@@ -125,7 +125,7 @@ if ($n == 0) {
 		print '<input type="hidden" name="action" value="unlink">';
 		print '<input type="hidden" name="type" value="'.$type.'">';
 		print '<input type="hidden" name="rowid" value="'.$obj->rowid.'">';
-		print '<button type="submit" class="butAction">'.$langs->trans("UnLinkPayment").'</button>';
+		print '<button type="submit" class="butAction">'.$langs->trans("UnLinkAdvance").'</button>';
 		print '</form>';
 		print '</td>';
 	}

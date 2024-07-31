@@ -16,8 +16,9 @@
 AdvancepaymentDescription=Advance Payment
 AdvancepaymentDescriptionLong=This module allows you to accept advance payments from your customers and link a payment to an order or proposal.
 
-PaymentLink=Payment link
-PaymentLinkTo=Payment link to
+AdvanceLink=Advance payment link
+AdvanceLinkTo=Advance payment link to
 
-InvoiceLinkPayment=Link payment already made
-UnLinkPayment=Unlink payment
+InvoiceLinkAdvance=Link advance already made
+UnLinkAdvance=Unlink advance payment
+ReceiveAdvance=Receive advance payment

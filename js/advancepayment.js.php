@@ -95,8 +95,11 @@ global $langs;
 
 $langs->load("advancepayment@advancepayment");
 
-$payment_link_trad = $langs->trans("PaymentLink");
-$invoice_link_payment = $langs->trans("InvoiceLinkPayment");
+$payment_link_trad = $langs->trans("AdvanceLink");
+$payment_link_trad = $langs->trans("AdvanceLink");
+$invoice_link_payment = $langs->trans("InvoiceLinkAdvance");
+$create_payment = $langs->trans("ReceiveAdvance");
+$advance_name = $langs->trans("AdvancepaymentDescription");
 ?>
 
 /* Javascript library of module Advancepayment */
@@ -123,7 +126,16 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 	// If we aren't on the order page or proposal page, don't do anything
-	if (window.location.href.indexOf("/commande/card.php") === -1 && window.location.href.indexOf("/propal/card.php") === -1) {
+	if (window.location.href.indexOf("/compta/bank/various_payment/card.php?action=create") === -1) {
+		return;
+	}
+
+	$('input.advancepayment').appendTo('form');
+});
+
+$(document).ready(function () {
+	// If we aren't on the order page or proposal page, don't do anything
+	if (window.location.href.indexOf("/commande/card.php") === -1 && window.location.href.indexOf("/propal/card.php") === -1 || window.location.href.indexOf("/fourn") > -1) {
 		return;
 	}
 	const id = window.location.href.split("id=")[1].split("&")[0];
@@ -133,6 +145,20 @@ $(document).ready(function () {
 		type = 'propal';
 	}
 
+	const refid = $('.refid').clone().children().remove().end().text();
+	const soc = $('.refurl').clone().children().remove().end().text();
+
+	$('.tabsAction').prepend(
+		`<form style="display: inline-block" action="/compta/bank/various_payment/card.php?action=create" method="post">
+			<input type="hidden" name="token" value="<?= newToken() ?>">
+			<input type="hidden" name="label" value="<?= $advance_name ?> - ${refid} ${soc}">
+			<input type="hidden" name="sens" value="1">
+			<input type="hidden" name="type_advancelink" value="${type}">
+			<input type="hidden" name="rowid_advancelink" value="${id}">
+			<input class="butAction" type="submit" value="<?= $create_payment ?>" id="payment_create" class="butAction">
+		</form>`
+	);
+
 	$.get(`/custom/advancepayment/paymentlinkto_list.php?type=${type}&rowid=${id}`, function (data) {
 		const last = $(".fichecenter .fichehalfright").last();
 		last.append(data);
@@ -141,10 +167,10 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 	// if we aren't on the Tier page, don't do anything
-	if (window.location.href.indexOf("/societe/card.php") === -1) {
+	if (window.location.href.indexOf("/comm/card.php") === -1) {
 		return;
 	}
-	const id = window.location.href.split("id=")[1].split("&")[0];
+	const id = window.location.href.split("socid=")[1].split("&")[0];
 
 	$.get(`/custom/advancepayment/paymentlinkto_list.php?type=soc&rowid=${id}`, function (data) {
 		const last = $(".fichecenter .fichehalfright").last();
