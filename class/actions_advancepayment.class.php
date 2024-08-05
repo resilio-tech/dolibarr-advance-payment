@@ -39,7 +39,7 @@ class ActionsAdvancePayment {
 			$object->accountid = GETPOSTINT("accountid") > 0 ? GETPOSTINT("accountid") : 0;
 			$object->datev = $datev;
 			$object->datep = $datep;
-			$object->amount = GETPOSTFLOAT("amount");
+			$object->amount = GETPOST("amount", "alpha");
 			$object->label = GETPOST("label", 'restricthtml');
 			$object->note = GETPOST("note", 'restricthtml');
 			$object->type_payment = dol_getIdFromCode($db, GETPOST('paymenttype'), 'c_paiement', 'code', 'id', 1);
