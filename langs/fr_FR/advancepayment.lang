@@ -22,3 +22,6 @@ AdvanceLinkTo=Lié a avance de paiement
 InvoiceLinkAdvance=Lier une avance déjà effectuée
 UnLinkAdvance=Dissocier avance de paiement
 ReceiveAdvance=Recevoir une avance de paiement
+
+ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE=Compte comptable pour les paiements anticipés
+ADVANCEPAYMENT_PARAM_SENS_PAYMENT=Sens de paiement pour les paiements anticipés

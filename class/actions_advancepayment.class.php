@@ -12,10 +12,53 @@ class ActionsAdvancePayment {
 		if ($action == 'create') {
 			$type = GETPOST('type_advancelink', 'alpha');
 			$rowid = GETPOST('rowid_advancelink', 'int');
+			$refid = GETPOST('refid_advancelink', 'alpha');
 
 			if (!empty($type) && !empty($rowid)) {
 				print '<input class="advancepayment" type="hidden" name="type_advancelink" value="'.$type.'">';
 				print '<input class="advancepayment" type="hidden" name="rowid_advancelink" value="'.$rowid.'">';
+
+				if (!empty($refid)) {
+					if ($type == 'commande') {
+						require_once DOL_DOCUMENT_ROOT . '/commande/class/commande.class.php';
+						$sql = "SELECT rowid FROM ".MAIN_DB_PREFIX."commande WHERE ref = '".$refid."'";
+						$resql = $db->query($sql);
+						if ($resql) {
+							$obj = $db->fetch_object($resql);
+							$o_id = $obj->rowid;
+							$o = new Commande($db);
+						}
+					} else if ($type == 'propal') {
+						require_once DOL_DOCUMENT_ROOT.'/comm/propal/class/propal.class.php';
+						$sql = "SELECT rowid FROM ".MAIN_DB_PREFIX."propal WHERE ref = '".$refid."'";
+						$resql = $db->query($sql);
+						if ($resql) {
+							$obj = $db->fetch_object($resql);
+							$o_id = $obj->rowid;
+							$o = new Propal($db);
+						}
+					}
+					if (empty($o)) {
+						return 0;
+					}
+					global $paymenttype;
+					if (!empty($paymenttype)) {
+						return 0;
+					}
+					$o->fetch($o_id);
+					require_once DOL_DOCUMENT_ROOT . '/societe/class/societe.class.php';
+					$s = new Societe($db);
+					$s->fetch($o->socid);
+					$paymenttype = $o->mode_reglement_code;
+					if (empty($paymenttype)) {
+						$sql = "SELECT code FROM ".MAIN_DB_PREFIX."c_paiement WHERE id = ".$s->mode_reglement_id;
+						$resql = $db->query($sql);
+						if ($resql) {
+							$obj = $db->fetch_object($resql);
+							$paymenttype = $obj->code;
+						}
+					}
+				}
 			}
 			return 0;
 		}

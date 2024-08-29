@@ -22,3 +22,6 @@ AdvanceLinkTo=Advance payment link to
 InvoiceLinkAdvance=Link advance already made
 UnLinkAdvance=Unlink advance payment
 ReceiveAdvance=Receive advance payment
+
+ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE=Account code for advance payments
+ADVANCEPAYMENT_PARAM_SENS_PAYMENT=Payment direction for advance payments

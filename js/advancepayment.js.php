@@ -20,9 +20,9 @@
 if (!defined('NOREQUIREUSER')) {
 	define('NOREQUIREUSER', '1');
 }
-if (!defined('NOREQUIREDB')) {
-	define('NOREQUIREDB', '1');
-}
+//if (!defined('NOREQUIREDB')) {
+//	define('NOREQUIREDB', '1');
+//}
 if (!defined('NOREQUIRESOC')) {
 	define('NOREQUIRESOC', '1');
 }
@@ -91,7 +91,7 @@ if (empty($dolibarr_nocache)) {
 	header('Cache-Control: no-cache');
 }
 
-global $langs;
+global $langs, $db, $conf;
 
 $langs->load("advancepayment@advancepayment");
 
@@ -100,6 +100,9 @@ $payment_link_trad = $langs->trans("AdvanceLink");
 $invoice_link_payment = $langs->trans("InvoiceLinkAdvance");
 $create_payment = $langs->trans("ReceiveAdvance");
 $advance_name = $langs->trans("AdvancepaymentDescription");
+
+$accounting_code = isset($conf->global->ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE) ? $conf->global->ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE : '';
+$sens_payment = isset($conf->global->ADVANCEPAYMENT_PARAM_SENS_PAYMENT) ? $conf->global->ADVANCEPAYMENT_PARAM_SENS_PAYMENT : 1;
 ?>
 
 /* Javascript library of module Advancepayment */
@@ -160,9 +163,11 @@ $(document).ready(function () {
 		`<form style="display: inline-block" action="/compta/bank/various_payment/card.php?action=create" method="post">
 			<input type="hidden" name="token" value="<?= newToken() ?>">
 			<input type="hidden" name="label" value="<?= $advance_name ?> - ${refid} ${soc}">
-			<input type="hidden" name="sens" value="1">
+			<input type="hidden" name="sens" value="<?= $sens_payment ?>">
+			<input type="hidden" name="accountancy_code" value="<?= $accounting_code ?>">
 			<input type="hidden" name="type_advancelink" value="${type}">
 			<input type="hidden" name="rowid_advancelink" value="${id}">
+			<input type="hidden" name="refid_advancelink" value="${refid}">
 			<input class="butAction" type="submit" value="<?= $create_payment ?>" id="payment_create" class="butAction" ${disabled ? 'disabled' : ''}>
 		</form>`
 	);
