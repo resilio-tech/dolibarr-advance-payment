@@ -148,6 +148,14 @@ $(document).ready(function () {
 	const refid = $('.refid').clone().children().remove().end().text();
 	const soc = $('.refurl').clone().children().remove().end().text();
 
+	const badge = $('.badge.badge-status')[0];
+	let disabled = false;
+	if (type === 'commande') {
+		disabled = !(badge?.textContent === 'Validé' || badge?.textContent === 'Validée');
+	}
+	if (type === 'propal') {
+		disabled = !(badge?.textContent.includes('Signée'));
+	}
 	$('.tabsAction').prepend(
 		`<form style="display: inline-block" action="/compta/bank/various_payment/card.php?action=create" method="post">
 			<input type="hidden" name="token" value="<?= newToken() ?>">
@@ -155,7 +163,7 @@ $(document).ready(function () {
 			<input type="hidden" name="sens" value="1">
 			<input type="hidden" name="type_advancelink" value="${type}">
 			<input type="hidden" name="rowid_advancelink" value="${id}">
-			<input class="butAction" type="submit" value="<?= $create_payment ?>" id="payment_create" class="butAction">
+			<input class="butAction" type="submit" value="<?= $create_payment ?>" id="payment_create" class="butAction" ${disabled ? 'disabled' : ''}>
 		</form>`
 	);
 
