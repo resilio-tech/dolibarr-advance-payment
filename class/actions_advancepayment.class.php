@@ -5,7 +5,7 @@ require_once DOL_DOCUMENT_ROOT.'/custom/advancepayment/class/advancepaymentlink.
 class ActionsAdvancePayment {
 	function doActions($paramters, &$object, &$action, &$hookmanager)
 	{
-		global $langs, $db, $conf, $user;
+		global $langs, $db, $user;
 
 		$langs->load("advancepayment@advancepayment");
 
@@ -41,7 +41,7 @@ class ActionsAdvancePayment {
 					if (empty($o)) {
 						return 0;
 					}
-					global $paymenttype;
+					global $paymenttype, $subledger_account;
 					if (!empty($paymenttype)) {
 						return 0;
 					}
@@ -49,6 +49,7 @@ class ActionsAdvancePayment {
 					require_once DOL_DOCUMENT_ROOT . '/societe/class/societe.class.php';
 					$s = new Societe($db);
 					$s->fetch($o->socid);
+					$subledger_account = $s->code_compta_client;
 					$paymenttype = $o->mode_reglement_code;
 					if (empty($paymenttype)) {
 						$sql = "SELECT code FROM ".MAIN_DB_PREFIX."c_paiement WHERE id = ".$s->mode_reglement_id;
