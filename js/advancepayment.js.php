@@ -173,7 +173,7 @@ $(document).ready(function () {
 	);
 
 	$.get(`/custom/advancepayment/paymentlinkto_list.php?type=${type}&rowid=${id}`, function (data) {
-		const last = $(".fichecenter .fichehalfright").last();
+		const last = $(".fichecenter .fichehalfright").first();
 		last.append(data);
 	});
 });
