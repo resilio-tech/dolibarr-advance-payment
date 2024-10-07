@@ -159,8 +159,10 @@ $(document).ready(function () {
 	if (type === 'propal') {
 		disabled = !(badge?.textContent.includes('Signée'));
 	}
-	$('.tabsAction').prepend(
-		`<form style="display: inline-block" action="/compta/bank/various_payment/card.php?action=create" method="post">
+
+	if (!disabled) {
+		$('.tabsAction').prepend(
+			`<form style="display: inline-block" action="/compta/bank/various_payment/card.php?action=create" method="post">
 			<input type="hidden" name="token" value="<?= newToken() ?>">
 			<input type="hidden" name="label" value="<?= $advance_name ?> - ${refid} ${soc}">
 			<input type="hidden" name="sens" value="<?= $sens_payment ?>">
@@ -170,7 +172,8 @@ $(document).ready(function () {
 			<input type="hidden" name="refid_advancelink" value="${refid}">
 			<input class="butAction" type="submit" value="<?= $create_payment ?>" id="payment_create" class="butAction" ${disabled ? 'disabled' : ''}>
 		</form>`
-	);
+		);
+	}
 
 	$.get(`/custom/advancepayment/paymentlinkto_list.php?type=${type}&rowid=${id}`, function (data) {
 		const last = $(".fichecenter .fichehalfright").first();
@@ -200,7 +203,7 @@ $(document).ready(function () {
 
 	const last = $(".fichecenter .fichehalfright").first();
 	last.append(
-		"<input type='button' value='<?= $invoice_link_payment ?>' id='payment_link' class='button'>"
+		"<div class=\"right\"><input type='button' value='<?= $invoice_link_payment ?>' id='payment_link' class='button'></div>"
 	);
 
 	$("#payment_link").click(function () {

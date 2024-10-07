@@ -203,7 +203,7 @@ if ($n == 0) {
 		print '<input type="hidden" name="token" value="'.newToken().'">';
 		print '<input type="hidden" name="action" value="link">';
 		print '<input type="hidden" name="rowid" value="'.$obj->rowid.'">';
-		print '<button type="submit" class="butAction">'.$langs->trans("ToLink").'</button>';
+		print '<button type="submit" class="butAction">'.$langs->trans("Use").'</button>';
 		print '</form>';
 		print '</td>';
 		print '</tr>';

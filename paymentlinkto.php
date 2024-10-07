@@ -279,7 +279,7 @@ if ($result && $db->num_rows($result)) {
 		print '<input type="hidden" name="action" value="link">';
 		print '<input type="hidden" name="type" value="'.$element['type'].'">';
 		print '<input type="hidden" name="link" value="'.$element['id'].'">';
-		print '<button type="submit" class="butAction">'.$langs->trans("ToLink").'</button>';
+		print '<button type="submit" class="butAction">'.$langs->trans("Use").'</button>';
 		print '</form>';
 		print '</td>';
 		print '</tr>';
