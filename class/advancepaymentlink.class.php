@@ -426,7 +426,7 @@ class AdvancePaymentLinks {
 			$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."commande AS c ON c.rowid = a.element_rowid AND a.type_link = 'commande'";
 			$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."propal AS p ON p.rowid = a.element_rowid AND a.type_link = 'propal'";
 			$sql .= " INNER JOIN ".MAIN_DB_PREFIX."societe AS s ON s.rowid = c.fk_soc OR s.rowid = p.fk_soc";
-			$sql .= " WHERE s.rowid = " . $element_rowid;
+			$sql .= " WHERE s.rowid = " . $element_rowid . " AND a.used = 0";
 
 			$resql = $this->db->query($sql);
 			if ($resql) {
@@ -459,14 +459,14 @@ class AdvancePaymentLinks {
 		}
 	}
 
-	public function removePaymentLinkFrom($type_link, $element_rowid, $payment_rowid)
+	public function usePaymentLinkFrom($type_link, $element_rowid, $payment_rowid)
 	{
 		if ($type_link == 'soc') {
-			$sql = "DELETE FROM " . MAIN_DB_PREFIX . "advancepayment_advancepaymentlink AS a";
+			$sql = "UPDATE " . MAIN_DB_PREFIX . "advancepayment_advancepaymentlink AS a SET a.used = 1";
 			$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "commande AS c ON c.rowid = a.element_rowid AND a.type_link = 'commande'";
 			$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "propal AS p ON p.rowid = a.element_rowid AND a.type_link = 'propal'";
 			$sql .= " INNER JOIN " . MAIN_DB_PREFIX . "societe AS s ON s.rowid = c.fk_soc OR s.rowid = p.fk_soc";
-			$sql .= " WHERE s.rowid = " . $element_rowid . " AND a.payment_rowid = " . $payment_rowid;
+			$sql .= " WHERE s.rowid = " . $element_rowid . " AND a.payment_rowid = " . $payment_rowid . " AND a.used = 0";
 
 			$resql = $this->db->query($sql);
 			if ($resql === false) {
@@ -475,7 +475,7 @@ class AdvancePaymentLinks {
 			}
 			return;
 		}
-		$sql = "DELETE FROM ".MAIN_DB_PREFIX."advancepayment_advancepaymentlink WHERE type_link = '".$type_link."' AND element_rowid = ".$element_rowid." AND payment_rowid = ".$payment_rowid;
+		$sql = "UPDATE ".MAIN_DB_PREFIX."advancepayment_advancepaymentlink SET used = 1 WHERE type_link = '".$type_link."' AND element_rowid = ".$element_rowid." AND payment_rowid = ".$payment_rowid . " AND used = 0";
 		$resql = $this->db->query($sql);
 		if ($resql === false) {
 			dol_print_error($this->db);

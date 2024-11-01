@@ -26,3 +26,7 @@ CREATE TABLE llx_advancepayment_advancepaymentlink(
 	fk_user_modif integer
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
+
+-- Add field 'used' to table 'llx_advancepayment_advancepaymentlink'
+ALTER TABLE llx_advancepayment_advancepaymentlink
+ADD COLUMN used bool DEFAULT '0' NOT NULL;

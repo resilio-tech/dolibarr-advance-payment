@@ -76,7 +76,7 @@ $action = GETPOST('action', 'alpha');
 
 if ($action == 'unlink' && !empty($type) && !empty($id) && ($type == 'commande' || $type == 'propal' || $type == 'soc')) {
 	$paymentlinks = new AdvancePaymentLinks($db);
-	$paymentlinks->removePaymentLinkFrom($type, $id, $rowid);
+	$paymentlinks->usePaymentLinkFrom($type, $id, $rowid);
 
 	// Redirect to the relative linked page
 	if ($type == 'commande') {

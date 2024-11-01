@@ -210,3 +210,16 @@ $(document).ready(function () {
 		window.location.href = "/custom/advancepayment/invoicelinkpayment.php?id=" + id;
 	});
 });
+
+$(document).ready(function () {
+	if (window.location.href.indexOf("/projet/element.php") === -1) {
+		return;
+	}
+
+	const id = window.location.href.split("id=")[1].split("&")[0];
+
+	$.get(`/custom/advancepayment/paymentlinkto_project.php?rowid=${id}`, function (data) {
+		const last = $(".fiche").last();
+		last.append(data);
+	});
+});
