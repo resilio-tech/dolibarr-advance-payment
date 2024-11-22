@@ -129,7 +129,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 	// If we aren't on the order page or proposal page, don't do anything
-	if (window.location.href.indexOf("/compta/bank/various_payment/card.php?action=create") === -1) {
+	if (window.location.href.indexOf("/compta/bank/various_payment/card.php") === -1) {
 		return;
 	}
 

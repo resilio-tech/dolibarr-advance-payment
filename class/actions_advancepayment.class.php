@@ -17,6 +17,7 @@ class ActionsAdvancePayment {
 			if (!empty($type) && !empty($rowid)) {
 				print '<input class="advancepayment" type="hidden" name="type_advancelink" value="'.$type.'">';
 				print '<input class="advancepayment" type="hidden" name="rowid_advancelink" value="'.$rowid.'">';
+				print '<input class="advancepayment" type="hidden" name="refid_advancelink" value="'.$refid.'">';
 
 				if (!empty($refid)) {
 					if ($type == 'commande') {
@@ -65,6 +66,14 @@ class ActionsAdvancePayment {
 		}
 
 		if ($action == 'add') {
+			$type = GETPOST('type_advancelink', 'alpha');
+			$rowid = GETPOST('rowid_advancelink', 'int');
+
+			if (!empty($type) && !empty($rowid)) {
+				print '<input class="advancepayment" type="hidden" name="type_advancelink" value="' . $type . '">';
+				print '<input class="advancepayment" type="hidden" name="rowid_advancelink" value="' . $rowid . '">';
+			}
+
 			if (isModEnabled('accounting') && getDolGlobalString('ACCOUNTANCY_COMBO_FOR_AUX')) {
 				$subledger_account = GETPOST("subledger_account", "alpha") > 0 ? GETPOST("subledger_account", "alpha") : '';
 			} else {
@@ -138,8 +147,8 @@ class ActionsAdvancePayment {
 					$db->commit();
 
 					$backtopage = GETPOST('backtopage', 'alpha');
-					$type = GETPOST('type_advancelink', 'alpha');
-					$rowid = GETPOST('rowid_advancelink', 'int');
+
+					var_dump($type);
 
 					if (!empty($type) && !empty($rowid)) {
 						$object->fetch($ret);
