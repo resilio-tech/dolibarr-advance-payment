@@ -49,10 +49,6 @@ class Advancepaymentlink extends CommonObject
 	 */
 	public $table_element = 'advancepayment_advancepaymentlink';
 
-	/**
-	 * @var string 	If permission must be checkec with hasRight('advancepayment', 'read') and not hasright('mymodyle', 'advancepaymentlink', 'read'), you can uncomment this line
-	 */
-	//public $element_for_permission = 'advancepayment';
 
 	/**
 	 * @var string String with name of icon for advancepaymentlink. Must be a 'fa-xxx' fontawesome code (or 'fa-xxx_fa_color_size') or 'advancepaymentlink@advancepayment' if picto is file 'img/object_advancepaymentlink.png'.

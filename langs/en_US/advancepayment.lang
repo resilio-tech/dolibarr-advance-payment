@@ -13,16 +13,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#
+# Module
+#
 AdvancepaymentDescription=Advance Payment
 AdvancepaymentDescriptionLong=This module allows you to accept advance payments from your customers and link a payment to an order or proposal.
 
+#
+# Admin
+#
+AdvancepaymentSetup=Advance Payment Setup
+AdvancepaymentSetupPage=Configure the advance payment module settings.
+ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE=Account code for advance payments
+ADVANCEPAYMENT_PARAM_SENS_PAYMENT=Payment direction for advance payments
+
+#
+# Labels
+#
 AdvanceLink=Advance payment link
 AdvanceLinkTo=Advance payment received
 Use=Use
-
 InvoiceLinkAdvance=Use received advance
 UnLinkAdvance=Unlink advance payment
 ReceiveAdvance=Receive advance payment
-
-ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE=Account code for advance payments
-ADVANCEPAYMENT_PARAM_SENS_PAYMENT=Payment direction for advance payments

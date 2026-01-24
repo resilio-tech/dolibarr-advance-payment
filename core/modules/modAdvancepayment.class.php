@@ -285,24 +285,6 @@ class modAdvancepayment extends DolibarrModules
 		$r = 0;
 		// Add here entries to declare new permissions
 		/* BEGIN MODULEBUILDER PERMISSIONS */
-		/*
-		$o = 1;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of Advancepayment'; // Permission label
-		$this->rights[$r][4] = 'advancepaymentlink';
-		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->hasRight('advancepayment', 'advancepaymentlink', 'read'))
-		$r++;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 2); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of Advancepayment'; // Permission label
-		$this->rights[$r][4] = 'advancepaymentlink';
-		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->hasRight('advancepayment', 'advancepaymentlink', 'write'))
-		$r++;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 3); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of Advancepayment'; // Permission label
-		$this->rights[$r][4] = 'advancepaymentlink';
-		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->hasRight('advancepayment', 'advancepaymentlink', 'delete'))
-		$r++;
-		*/
 		/* END MODULEBUILDER PERMISSIONS */
 
 
@@ -376,124 +358,15 @@ class modAdvancepayment extends DolibarrModules
 //			'object'=>'Advancepaymentlink'
 //		);
 		/* END MODULEBUILDER LEFTMENU ADVANCEPAYMENTLINK */
-		/* BEGIN MODULEBUILDER LEFTMENU MYOBJECT */
-		/*
-		$this->menu[$r++]=array(
-			'fk_menu'=>'fk_mainmenu=advancepayment',      // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-			'type'=>'left',                          // This is a Left menu entry
-			'titre'=>'Advancepaymentlink',
-			'prefix' => img_picto('', $this->picto, 'class="pictofixedwidth valignmiddle paddingright"'),
-			'mainmenu'=>'advancepayment',
-			'leftmenu'=>'advancepaymentlink',
-			'url'=>'/advancepayment/advancepaymentindex.php',
-			'langs'=>'advancepayment@advancepayment',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-			'position'=>1000+$r,
-			'enabled'=>'isModEnabled("advancepayment")', // Define condition to show or hide menu entry. Use 'isModEnabled("advancepayment")' if entry must be visible if module is enabled.
-			'perms'=>'$user->hasRight("advancepayment", "advancepaymentlink", "read")',
-			'target'=>'',
-			'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-			'object'=>'Advancepaymentlink'
-		);
-		$this->menu[$r++]=array(
-			'fk_menu'=>'fk_mainmenu=advancepayment,fk_leftmenu=advancepaymentlink',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'New_Advancepaymentlink',
-			'mainmenu'=>'advancepayment',
-			'leftmenu'=>'advancepayment_advancepaymentlink_new',
-			'url'=>'/advancepayment/advancepaymentlink_card.php?action=create',
-			'langs'=>'advancepayment@advancepayment',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-			'position'=>1000+$r,
-			'enabled'=>'isModEnabled("advancepayment")', // Define condition to show or hide menu entry. Use 'isModEnabled("advancepayment")' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms'=>'$user->hasRight("advancepayment", "advancepaymentlink", "write")'
-			'target'=>'',
-			'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-			'object'=>'Advancepaymentlink'
-		);
-		$this->menu[$r++]=array(
-			'fk_menu'=>'fk_mainmenu=advancepayment,fk_leftmenu=advancepaymentlink',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'List_Advancepaymentlink',
-			'mainmenu'=>'advancepayment',
-			'leftmenu'=>'advancepayment_advancepaymentlink_list',
-			'url'=>'/advancepayment/advancepaymentlink_list.php',
-			'langs'=>'advancepayment@advancepayment',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-			'position'=>1000+$r,
-			'enabled'=>'isModEnabled("advancepayment")', // Define condition to show or hide menu entry. Use 'isModEnabled("advancepayment")' if entry must be visible if module is enabled.
-			'perms'=>'$user->hasRight("advancepayment", "advancepaymentlink", "read")'
-			'target'=>'',
-			'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-			'object'=>'Advancepaymentlink'
-		);
-		*/
-		/* END MODULEBUILDER LEFTMENU MYOBJECT */
 
 
 		// Exports profiles provided by this module
-		$r = 1;
-		/* BEGIN MODULEBUILDER EXPORT MYOBJECT */
-		/*
-		$langs->load("advancepayment@advancepayment");
-		$this->export_code[$r] = $this->rights_class.'_'.$r;
-		$this->export_label[$r] = 'AdvancepaymentlinkLines';	// Translation key (used only if key ExportDataset_xxx_z not found)
-		$this->export_icon[$r] = $this->picto;
-		// Define $this->export_fields_array, $this->export_TypeFields_array and $this->export_entities_array
-		$keyforclass = 'Advancepaymentlink'; $keyforclassfile='/advancepayment/class/advancepaymentlink.class.php'; $keyforelement='advancepaymentlink@advancepayment';
-		include DOL_DOCUMENT_ROOT.'/core/commonfieldsinexport.inc.php';
-		//$this->export_fields_array[$r]['t.fieldtoadd']='FieldToAdd'; $this->export_TypeFields_array[$r]['t.fieldtoadd']='Text';
-		//unset($this->export_fields_array[$r]['t.fieldtoremove']);
-		//$keyforclass = 'AdvancepaymentlinkLine'; $keyforclassfile='/advancepayment/class/advancepaymentlink.class.php'; $keyforelement='advancepaymentlinkline@advancepayment'; $keyforalias='tl';
-		//include DOL_DOCUMENT_ROOT.'/core/commonfieldsinexport.inc.php';
-		$keyforselect='advancepaymentlink'; $keyforaliasextra='extra'; $keyforelement='advancepaymentlink@advancepayment';
-		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
-		//$keyforselect='advancepaymentlinkline'; $keyforaliasextra='extraline'; $keyforelement='advancepaymentlinkline@advancepayment';
-		//include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
-		//$this->export_dependencies_array[$r] = array('advancepaymentlinkline'=>array('tl.rowid','tl.ref')); // To force to activate one or several fields if we select some fields that need same (like to select a unique key if we ask a field of a child to avoid the DISTINCT to discard them, or for computed field than need several other fields)
-		//$this->export_special_array[$r] = array('t.field'=>'...');
-		//$this->export_examplevalues_array[$r] = array('t.field'=>'Example');
-		//$this->export_help_array[$r] = array('t.field'=>'FieldDescHelp');
-		$this->export_sql_start[$r]='SELECT DISTINCT ';
-		$this->export_sql_end[$r]  =' FROM '.MAIN_DB_PREFIX.'advancepayment_advancepaymentlink as t';
-		//$this->export_sql_end[$r]  .=' LEFT JOIN '.MAIN_DB_PREFIX.'advancepayment_advancepaymentlink_line as tl ON tl.fk_advancepaymentlink = t.rowid';
-		$this->export_sql_end[$r] .=' WHERE 1 = 1';
-		$this->export_sql_end[$r] .=' AND t.entity IN ('.getEntity('advancepaymentlink').')';
-		$r++; */
-		/* END MODULEBUILDER EXPORT MYOBJECT */
+		/* BEGIN MODULEBUILDER EXPORT ADVANCEPAYMENTLINK */
+		/* END MODULEBUILDER EXPORT ADVANCEPAYMENTLINK */
 
 		// Imports profiles provided by this module
-		$r = 1;
-		/* BEGIN MODULEBUILDER IMPORT MYOBJECT */
-		/*
-		$langs->load("advancepayment@advancepayment");
-		$this->import_code[$r] = $this->rights_class.'_'.$r;
-		$this->import_label[$r] = 'AdvancepaymentlinkLines';	// Translation key (used only if key ExportDataset_xxx_z not found)
-		$this->import_icon[$r] = $this->picto;
-		$this->import_tables_array[$r] = array('t' => MAIN_DB_PREFIX.'advancepayment_advancepaymentlink', 'extra' => MAIN_DB_PREFIX.'advancepayment_advancepaymentlink_extrafields');
-		$this->import_tables_creator_array[$r] = array('t' => 'fk_user_author'); // Fields to store import user id
-		$import_sample = array();
-		$keyforclass = 'Advancepaymentlink'; $keyforclassfile='/advancepayment/class/advancepaymentlink.class.php'; $keyforelement='advancepaymentlink@advancepayment';
-		include DOL_DOCUMENT_ROOT.'/core/commonfieldsinimport.inc.php';
-		$import_extrafield_sample = array();
-		$keyforselect='advancepaymentlink'; $keyforaliasextra='extra'; $keyforelement='advancepaymentlink@advancepayment';
-		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinimport.inc.php';
-		$this->import_fieldshidden_array[$r] = array('extra.fk_object' => 'lastrowid-'.MAIN_DB_PREFIX.'advancepayment_advancepaymentlink');
-		$this->import_regex_array[$r] = array();
-		$this->import_examplevalues_array[$r] = array_merge($import_sample, $import_extrafield_sample);
-		$this->import_updatekeys_array[$r] = array('t.ref' => 'Ref');
-		$this->import_convertvalue_array[$r] = array(
-			't.ref' => array(
-				'rule'=>'getrefifauto',
-				'class'=>(!getDolGlobalString('ADVANCEPAYMENT_MYOBJECT_ADDON') ? 'mod_advancepaymentlink_standard' : getDolGlobalString('ADVANCEPAYMENT_MYOBJECT_ADDON')),
-				'path'=>"/core/modules/advancepayment/".(!getDolGlobalString('ADVANCEPAYMENT_MYOBJECT_ADDON') ? 'mod_advancepaymentlink_standard' : getDolGlobalString('ADVANCEPAYMENT_MYOBJECT_ADDON')).'.php',
-				'classobject'=>'Advancepaymentlink',
-				'pathobject'=>'/advancepayment/class/advancepaymentlink.class.php',
-			),
-			't.fk_soc' => array('rule' => 'fetchidfromref', 'file' => '/societe/class/societe.class.php', 'class' => 'Societe', 'method' => 'fetch', 'element' => 'ThirdParty'),
-			't.fk_user_valid' => array('rule' => 'fetchidfromref', 'file' => '/user/class/user.class.php', 'class' => 'User', 'method' => 'fetch', 'element' => 'user'),
-			't.fk_mode_reglement' => array('rule' => 'fetchidfromcodeorlabel', 'file' => '/compta/paiement/class/cpaiement.class.php', 'class' => 'Cpaiement', 'method' => 'fetch', 'element' => 'cpayment'),
-		);
-		$this->import_run_sql_after_array[$r] = array();
-		$r++; */
-		/* END MODULEBUILDER IMPORT MYOBJECT */
+		/* BEGIN MODULEBUILDER IMPORT ADVANCEPAYMENTLINK */
+		/* END MODULEBUILDER IMPORT ADVANCEPAYMENTLINK */
 	}
 
 	/**
