@@ -1,96 +1,154 @@
-# ADVANCEPAYMENT FOR [DOLIBARR ERP & CRM](https://www.dolibarr.org)
+# AdvancePayment - Dolibarr Module
+
+Module for managing advance payments and deposits. Allows linking miscellaneous payments (bank entries) to orders, proposals or projects.
 
 ## Features
 
-Description of the module...
+- Link payment → customer order
+- Link payment → commercial proposal
+- Link payment → project
+- Mark advance payments as used
+- Integration into forms via hooks
+- Selection interface with filters
 
-<!--
-![Screenshot advancepayment](img/screenshot_advancepayment.png?raw=true "Advancepayment"){imgmd}
--->
-
-Other external modules are available on [Dolistore.com](https://www.dolistore.com).
-
-## Translations
-
-Translations can be completed manually by editing files in the module directories under `langs`.
-
-<!--
-This module contains also a sample configuration for Transifex, under the hidden directory [.tx](.tx), so it is possible to manage translation using this service.
-
-For more information, see the [translator's documentation](https://wiki.dolibarr.org/index.php/Translator_documentation).
-
-There is a [Transifex project](https://transifex.com/projects/p/dolibarr-module-template) for this module.
--->
-
+---
 
 ## Installation
 
-Prerequisites: You must have Dolibarr ERP & CRM software installed. You can download it from [Dolistore.org](https://www.dolibarr.org).
-You can also get a ready-to-use instance in the cloud from https://saas.dolibarr.org
+### Prerequisites
 
+- Dolibarr >= 19.0
+- PHP >= 7.1
 
-### From the ZIP file and GUI interface
+### Module Installation
 
-If the module is a ready-to-deploy zip file, so with a name `module_xxx-version.zip` (e.g., when downloading it from a marketplace like [Dolistore](https://www.dolistore.com)),
-go to menu `Home> Setup> Modules> Deploy external module` and upload the zip file.
+1. Copy the `advancepayment` folder into `htdocs/custom/`
+2. Enable the module in **Setup > Modules > Other**
 
-Note: If this screen tells you that there is no "custom" directory, check that your setup is correct:
+---
 
-<!--
+## Usage
 
-- In your Dolibarr installation directory, edit the `htdocs/conf/conf.php` file and check that following lines are not commented:
+### Link a payment to an order/proposal
 
-    ```php
-    //$dolibarr_main_url_root_alt ...
-    //$dolibarr_main_document_root_alt ...
-    ```
+1. Go to a bank entry card (miscellaneous payment)
+2. A "Link to..." button appears via the hook
+3. Select the order or commercial proposal
+4. The link is created
 
-- Uncomment them if necessary (delete the leading `//`) and assign the proper value according to your Dolibarr installation
+### Use an advance payment on an invoice
 
-    For example :
+From an order or proposal card, linked advance payments are displayed and can be marked as "used" when invoicing.
 
-    - UNIX:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = '/var/www/Dolibarr/htdocs/custom';
-        ```
+### Available Pages
 
-    - Windows:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = 'C:/My Web Sites/Dolibarr/htdocs/custom';
-        ```
--->
+| Page | Description |
+|------|-------------|
+| `paymentlinkto.php` | Link a payment to an order/proposal |
+| `paymentlinkto_project.php` | Link a payment to a project |
+| `paymentlinkto_list.php` | List of existing links |
+| `invoicelinkpayment.php` | Manage advance payments from an invoice |
 
-<!--
+---
 
-### From a GIT repository
+## Architecture
 
-Clone the repository in `$dolibarr_main_document_root_alt/advancepayment`
+### File Structure
 
-```shell
-cd ....../custom
-git clone git@github.com:gitlogin/advancepayment.git advancepayment
+```
+advancepayment/
+├── class/
+│   ├── advancepaymentlink.class.php    # CRUD object + utility
+│   └── actions_advancepayment.class.php # Hooks
+├── core/modules/
+│   └── modAdvancepayment.class.php     # Module descriptor
+├── admin/
+│   ├── setup.php                       # Configuration
+│   └── about.php                       # About
+├── js/
+│   └── advancepayment.js.php           # JavaScript UI
+├── langs/
+│   ├── en_US/advancepayment.lang
+│   └── fr_FR/advancepayment.lang
+├── sql/                                # Database tables
+├── paymentlinkto.php                   # Link to order/proposal
+├── paymentlinkto_project.php           # Link to project
+├── paymentlinkto_list.php              # Links list
+└── invoicelinkpayment.php              # Links from invoice
 ```
 
--->
+### Main Classes
 
-### Final steps
+#### `Advancepaymentlink`
+CRUD object representing a payment → element link:
 
-Using your browser:
+| Field | Type | Description |
+|-------|------|-------------|
+| `rowid` | int | Technical ID |
+| `type_link` | varchar | Element type (`commande`, `propal`, `soc`) |
+| `payment_rowid` | int | Payment ID (bank entry) |
+| `element_rowid` | int | Linked element ID |
+| `used` | int | 0 = available, 1 = used |
 
-  - Log into Dolibarr as a super-administrator
-  - Go to "Setup"> "Modules"
-  - You should now be able to find and enable the module
+#### `AdvancePaymentLinks`
+Utility class for common operations:
 
+```php
+// Get elements linked to a payment
+$links = $advancePaymentLinks->getElementLinks($payment_rowid);
 
+// Get payments linked to an element
+$payments = $advancePaymentLinks->getPaymentLinks('commande', $order_id);
 
-## Licenses
+// Mark an advance payment as used
+$advancePaymentLinks->usePaymentLinkFrom('commande', $order_id, $payment_id);
 
-### Main code
+// Remove all links from a payment
+$advancePaymentLinks->removePaymentLinks($payment_rowid);
+```
 
-GPLv3 or (at your option) any later version. See file COPYING for more information.
+### Hook
 
-### Documentation
+The module uses the `variouscard` hook to integrate into miscellaneous payment cards and display linking options.
 
-All texts and readme's are licensed under [GFDL](https://www.gnu.org/licenses/fdl-1.3.en.html).
+### SQL Table
+
+```sql
+CREATE TABLE llx_advancepayment_advancepaymentlink (
+    rowid           INTEGER AUTO_INCREMENT PRIMARY KEY,
+    type_link       VARCHAR(255) NOT NULL,
+    payment_rowid   INTEGER NOT NULL,
+    element_rowid   INTEGER NOT NULL,
+    used            INTEGER DEFAULT 0,
+    date_creation   DATETIME NOT NULL,
+    tms             TIMESTAMP,
+    fk_user_creat   INTEGER NOT NULL,
+    fk_user_modif   INTEGER
+);
+```
+
+---
+
+## Development
+
+### Adding a new link type
+
+1. Add the type in `paymentlinkto.php` (`if ($type == '...')` conditions)
+2. Add the SQL query to list elements
+3. Update `AdvancePaymentLinks::getPaymentLinks()` if needed
+
+### Dolibarr Tables Used
+
+| Table | Usage |
+|-------|-------|
+| `llx_bank` | Bank entries (payments) |
+| `llx_commande` | Customer orders |
+| `llx_propal` | Commercial proposals |
+| `llx_projet` | Projects |
+| `llx_societe` | Third parties |
+
+---
+
+## License
+
+GPLv3 - See COPYING file

@@ -19,7 +19,7 @@
  */
 
 /**
- *	\file       advancepayment/paymentlinkto_list.php
+ *	\file       advancepayment/paymentlinkto_project.php
  *	\ingroup    advancepayment
  */
 
@@ -59,7 +59,6 @@ require_once DOL_DOCUMENT_ROOT.'/categories/class/categorie.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/payments.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
 require_once DOL_DOCUMENT_ROOT.'/custom/advancepayment/class/advancepaymentlink.class.php';
 
 // Load translation files required by the page

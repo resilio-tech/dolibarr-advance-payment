@@ -59,7 +59,6 @@ require_once DOL_DOCUMENT_ROOT.'/categories/class/categorie.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/payments.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
 require_once DOL_DOCUMENT_ROOT.'/custom/advancepayment/class/advancepaymentlink.class.php';
 
 // Load translation files required by the page
@@ -120,7 +119,7 @@ if ($n == 0) {
 		print '<td class="nowrap">'.dol_print_date($db->jdate($obj->datev), 'day').'</td>';
 		print '<td class="nowrap">'.price($obj->amount).'</td>';
 		print '<td>';
-		print '<form action="/custom/advancepayment/paymentlinkto.php?link='.$rowid.'" method="post">';
+		print '<form action="'.dol_buildpath('/custom/advancepayment/paymentlinkto.php', 1).'?link='.$rowid.'" method="post">';
 		print '<input type="hidden" name="token" value="'.newToken().'">';
 		print '<input type="hidden" name="action" value="unlink">';
 		print '<input type="hidden" name="type" value="'.$type.'">';
