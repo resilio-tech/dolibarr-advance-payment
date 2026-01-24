@@ -1,4 +1,4 @@
-# Copyright (C) ---Put here your own copyright and developer email---
+# Copyright (C) 2024 SuperAdmin
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,16 +13,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#
+# Module
+#
 AdvancepaymentDescription=Avance de paiement
 AdvancepaymentDescriptionLong=Ce module vous permet d'accepter des paiements anticipés de vos clients et de lier un paiement à une commande ou à une proposition.
 
+#
+# Admin
+#
+AdvancepaymentSetup=Configuration Avance de paiement
+AdvancepaymentSetupPage=Configurer les paramètres du module avance de paiement.
+ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE=Compte comptable pour les paiements anticipés
+ADVANCEPAYMENT_PARAM_SENS_PAYMENT=Sens de paiement pour les paiements anticipés
+
+#
+# Labels
+#
 AdvanceLink=Lien avance de paiement
 AdvanceLinkTo=Avance de paiement reçue
 Use=Utiliser
-
 InvoiceLinkAdvance=Utiliser une avance reçue
 UnLinkAdvance=Dissocier avance de paiement
 ReceiveAdvance=Recevoir une avance de paiement
-
-ADVANCEPAYMENT_PARAM_ACCOUNTING_CODE=Compte comptable pour les paiements anticipés
-ADVANCEPAYMENT_PARAM_SENS_PAYMENT=Sens de paiement pour les paiements anticipés

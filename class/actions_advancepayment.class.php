@@ -148,8 +148,6 @@ class ActionsAdvancePayment {
 
 					$backtopage = GETPOST('backtopage', 'alpha');
 
-					var_dump($type);
-
 					if (!empty($type) && !empty($rowid)) {
 						$object->fetch($ret);
 						$id = $object->fk_bank;
