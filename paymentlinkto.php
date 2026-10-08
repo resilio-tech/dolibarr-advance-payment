@@ -66,6 +66,9 @@ require_once DOL_DOCUMENT_ROOT.'/custom/advancepayment/class/advancepaymentlink.
 // Load translation files required by the page
 $langs->loadLangs(array("advancepayment@advancepayment"));
 
+if (!isModEnabled('advancepayment') || $user->socid > 0 || !$user->hasRight('banque', 'lire')) {
+	accessforbidden();
+}
 
 $rowid = GETPOSTINT('rowid');
 
@@ -228,7 +231,7 @@ if ($result && $db->num_rows($result)) {
 	$list_propals_sql .= " ORDER BY p.datec DESC LIMIT 10 ";
 	$list_orders_sql .= " ORDER BY o.date_creation DESC LIMIT 10 ";
 
-	if (empty($filter_type) || str_contains($langs->trans('Proposal'), $filter_type)) {
+	if ($user->hasRight('propal', 'lire') && (empty($filter_type) || str_contains($langs->trans('Proposal'), $filter_type))) {
 		$results_propals = $db->query($list_propals_sql);
 		$num_propals = $db->num_rows($results_propals);
 		$n = 0;
@@ -246,7 +249,7 @@ if ($result && $db->num_rows($result)) {
 		}
 	}
 
-	if (empty($filter_type) || str_contains($langs->trans('Order'), $filter_type)) {
+	if ($user->hasRight('commande', 'lire') && (empty($filter_type) || str_contains($langs->trans('Order'), $filter_type))) {
 		$results_orders = $db->query($list_orders_sql);
 		$num_orders = $db->num_rows($results_orders);
 		$n = 0;

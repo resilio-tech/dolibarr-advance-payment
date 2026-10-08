@@ -79,9 +79,21 @@ $invoice = new Facture($db);
 $invoice->fetch($invoice_id);
 $invoice->fetch_thirdparty();
 
+if (!isModEnabled('advancepayment') || $user->socid > 0) {
+	accessforbidden();
+}
+restrictedArea($user, 'facture', $invoice->id, '', '', 'fk_soc', 'rowid', ($invoice->status == Facture::STATUS_DRAFT ? 1 : 0));
+if (!$user->hasRight('banque', 'lire')) {
+	accessforbidden();
+}
+
 $action = GETPOST('action', 'alpha');
 
 if ($action == 'link') {
+	if (!$user->hasRight('facture', 'paiement') || !$user->hasRight('banque', 'modifier')) {
+		accessforbidden();
+	}
+
 	$rowid = GETPOSTINT('rowid');
 
 	// fetch Bank object
