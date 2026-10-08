@@ -98,41 +98,67 @@ if ($action == 'link') {
 
 	// fetch Bank object
 	$bank = new AccountLine($db);
-	$bank->fetch($rowid);
+	$result = $bank->fetch($rowid);
 
-	// Get payment Type
-	$paymentTypeSql = "SELECT id FROM ".MAIN_DB_PREFIX."c_paiement WHERE code = '".$bank->fk_type."'";
-	$paymentType = $db->query($paymentTypeSql);
-	if ($paymentType === false) {
-		dol_print_error($db);
-		exit;
+	$error = 0;
+	$langs->loadLangs(array('errors', 'bills'));
+
+	if ($result <= 0 || !in_array($rowid, $object->getPaymentLinks('soc', $invoice->socid))) {
+		setEventMessages($langs->trans('ErrorRecordNotFound'), null, 'errors');
+		$error++;
 	}
-	$paymentType = $db->fetch_object($paymentType);
 
-	$payment = new Paiement($db);
-
-	// Create payment
-	$payment->date = $bank->datev;
-	$payment->datepaye = $bank->datev;
-	$payment->amount = $bank->amount;
-	$payment->multicurrency_amounts = array($invoice_id => $bank->amount);
-	$payment->multicurrency_codes = array($invoice_id => $bank->multicurrency_code);
-	$payment->facid = $invoice_id;
-	$payment->socid = $invoice->socid;
-	$payment->fk_account = $bank->fk_account;
-	$payment->paiementid = $paymentType->id;
-
-	$result = $payment->create($user);
-	if ($result < 0) {
-		setEventMessages($payment->error, $payment->errors, 'errors');
-		var_dump($payment->error);
+	if (!$error) {
+		$resql = $db->query("SELECT COUNT(rowid) as nb FROM ".MAIN_DB_PREFIX."paiement WHERE fk_bank = ".((int) $bank->id));
+		$obj = $resql ? $db->fetch_object($resql) : null;
+		if (!$obj || $obj->nb > 0) {
+			setEventMessages($langs->trans('ErrorRecordAlreadyExists'), null, 'errors');
+			$error++;
+		}
 	}
-	$payment->update_fk_bank($bank->id);
 
-	$object->removePaymentLinks($rowid);
+	if (!$error) {
+		$remaintopay = price2num($invoice->total_ttc - $invoice->getSommePaiement() - $invoice->getSumCreditNotesUsed() - $invoice->getSumDepositsUsed(), 'MT');
+		if ((float) price2num($bank->amount, 'MT') > (float) $remaintopay) {
+			setEventMessages($langs->trans('PaymentHigherThanReminderToPay'), null, 'errors');
+			$error++;
+		}
+	}
 
-	header('Location: '.dol_buildpath('/compta/facture/card.php', 1).'?id='.$invoice_id);
-	exit;
+	if (!$error) {
+		// Get payment Type
+		$paymentTypeSql = "SELECT id FROM ".MAIN_DB_PREFIX."c_paiement WHERE code = '".$bank->fk_type."'";
+		$paymentType = $db->query($paymentTypeSql);
+		if ($paymentType === false) {
+			dol_print_error($db);
+			exit;
+		}
+		$paymentType = $db->fetch_object($paymentType);
+
+		$db->begin();
+
+		$payment = new Paiement($db);
+
+		// Create payment
+		$payment->date = $bank->datev;
+		$payment->datepaye = $bank->datev;
+		$payment->amounts = array($invoice->id => $bank->amount);
+		$payment->multicurrency_code = array($invoice->id => $invoice->multicurrency_code);
+		$payment->multicurrency_tx = array($invoice->id => $invoice->multicurrency_tx);
+		$payment->fk_account = $bank->fk_account;
+		$payment->paiementid = $paymentType->id;
+
+		if ($payment->create($user) < 0 || $payment->update_fk_bank($bank->id) < 0) {
+			$db->rollback();
+			setEventMessages($payment->error, $payment->errors, 'errors');
+		} else {
+			$object->removePaymentLinks($rowid);
+			$db->commit();
+
+			header('Location: '.dol_buildpath('/compta/facture/card.php', 1).'?id='.$invoice_id);
+			exit;
+		}
+	}
 }
 
 llxHeader('', $langs->trans("Factures"));
