@@ -22,7 +22,7 @@ class ActionsAdvancePayment {
 				if (!empty($refid)) {
 					if ($type == 'commande') {
 						require_once DOL_DOCUMENT_ROOT . '/commande/class/commande.class.php';
-						$sql = "SELECT rowid FROM ".MAIN_DB_PREFIX."commande WHERE ref = '".$refid."'";
+						$sql = "SELECT rowid FROM ".MAIN_DB_PREFIX."commande WHERE ref = '".$db->escape($refid)."' AND entity IN (".getEntity('commande').")";
 						$resql = $db->query($sql);
 						if ($resql) {
 							$obj = $db->fetch_object($resql);
@@ -31,7 +31,7 @@ class ActionsAdvancePayment {
 						}
 					} else if ($type == 'propal') {
 						require_once DOL_DOCUMENT_ROOT.'/comm/propal/class/propal.class.php';
-						$sql = "SELECT rowid FROM ".MAIN_DB_PREFIX."propal WHERE ref = '".$refid."'";
+						$sql = "SELECT rowid FROM ".MAIN_DB_PREFIX."propal WHERE ref = '".$db->escape($refid)."' AND entity IN (".getEntity('propal').")";
 						$resql = $db->query($sql);
 						if ($resql) {
 							$obj = $db->fetch_object($resql);
@@ -66,6 +66,10 @@ class ActionsAdvancePayment {
 		}
 
 		if ($action == 'add') {
+			if (!$user->hasRight('banque', 'modifier')) {
+				return 0;
+			}
+
 			$type = GETPOST('type_advancelink', 'alpha');
 			$rowid = GETPOST('rowid_advancelink', 'int');
 

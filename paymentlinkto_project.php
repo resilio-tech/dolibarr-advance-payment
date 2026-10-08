@@ -66,6 +66,11 @@ $langs->loadLangs(array("advancepayment@advancepayment"));
 
 $rowid = GETPOSTINT('rowid');
 
+if (!isModEnabled('advancepayment') || $user->socid > 0 || !$user->hasRight('banque', 'lire')
+	|| !restrictedArea($user, 'projet', $rowid, 'projet&project', '', 'fk_soc', 'rowid', 0, 1)) {
+	httponly_accessforbidden();
+}
+
 $object = new AdvancePaymentLinks($db);
 
 $sql_type = "SELECT b.rowid as rowid, b.datev as datev, b.amount as amount, b.label as label,";

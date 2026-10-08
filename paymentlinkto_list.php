@@ -74,6 +74,19 @@ $links = [0];
 if ($type != 'commande' && $type != 'propal' && $type != 'soc') {
 	$type = 'commande';
 }
+
+if (!isModEnabled('advancepayment') || $user->socid > 0 || !$user->hasRight('banque', 'lire')) {
+	httponly_accessforbidden();
+}
+if ($type == 'soc') {
+	$result = restrictedArea($user, 'societe', $rowid, '&societe', '', 'fk_soc', 'rowid', 0, 1);
+} else {
+	$result = restrictedArea($user, $type, $rowid, '', '', 'fk_soc', 'rowid', 0, 1);
+}
+if (!$result) {
+	httponly_accessforbidden();
+}
+
 $other_links = $object->getPaymentLinks($type, $rowid);
 $links = array_merge($links, $other_links);
 
